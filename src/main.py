@@ -7,6 +7,13 @@ from db import (
 import datetime
 
 def print_products():
+    """
+    Display all products stored in the database.
+
+    This function retrieves all product records using get_all_products().
+    If the table is empty, it prints a message informing the user.
+    Otherwise, it prints each product as a dictionary.
+    """
     rows = get_all_products()
     if not rows:
         print("No products available.")
@@ -15,11 +22,34 @@ def print_products():
     for r in rows:
         print(dict(r))
 
+
 def demo_aggregates():
+    """
+    Display a summary of aggregate metrics from the database.
+
+    Calls summary_aggregates() to compute:
+        - Total products
+        - Average price
+        - Total inventory value
+    The function prints these values to the user.
+    """
     agg = summary_aggregates()
     print("Summary:", dict(agg))
 
+
 def interactive_menu():
+    """
+    Main interactive menu loop of the program.
+
+    This function:
+        - Displays available menu options
+        - Reads user input
+        - Routes the user to the appropriate functionality
+        - Validates IDs before editing or deleting
+        - Ensures categories exist before allowing product creation
+
+    The loop runs until the user selects the 'Exit' option.
+    """
     while True:
         print("\nQuick Menu:")
         print("Please make sure to create at least one category before adding products.")
@@ -54,7 +84,7 @@ def interactive_menu():
             for c in cats:
                 print(f"{c['id']}: {c['name']}")
 
-            # Validación de category_id
+            # Validate category_id
             valid_ids = [c['id'] for c in cats]
             while True:
                 try:
@@ -68,7 +98,7 @@ def interactive_menu():
 
             qty = int(input("Quantity: "))
             price = float(input("Price: "))
-            date = input("Date (YYYY-MM-DD): ")
+            date = input("Date (YYYY-MM-DD): ")  # User must input valid date
             insert_product(name, cat_id, qty, price, date)
             print("Product added.")
 
@@ -83,7 +113,7 @@ def interactive_menu():
             for r in rows:
                 print(f"{r['id']}: {r['name']} (Quantity: {r['quantity']})")
 
-            # Validación de product_id
+            # Validate product_id for updating
             valid_ids = [r['id'] for r in rows]
             while True:
                 try:
@@ -110,7 +140,7 @@ def interactive_menu():
             for r in rows:
                 print(f"{r['id']}: {r['name']}")
 
-            # Validación de product_id
+            # Validate product_id for deletion
             valid_ids = [r['id'] for r in rows]
             while True:
                 try:
@@ -125,24 +155,31 @@ def interactive_menu():
             delete_product(pid)
             print("Deleted.")
 
-
         # 6) Aggregates summary
         elif choice == "6":
             demo_aggregates()
 
-        # 7) Exit
+        # 7) Exit program
         elif choice == "7":
             print("Exiting program.")
             break
 
+        # Invalid menu option
         else:
             print("Invalid option.")
 
 
 if __name__ == "__main__":
+    """
+    Program entry point.
+
+    When the script is executed:
+        - The database is initialized (tables created if they do not exist)
+        - The interactive menu is displayed to the user
+    """
     initialize_db()
     print("Database initialized. Use the interactive menu to add categories and products.")
     interactive_menu()
 
-#del data\inventory.db
-#python src/main.py
+# del data\inventory.db
+# python src/main.py
