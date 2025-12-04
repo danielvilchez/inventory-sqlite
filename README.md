@@ -6,7 +6,7 @@ The program integrates with a **SQLite relational database** (`inventory.db`) wh
 
 This project helps strengthen my understanding of relational databases, SQL commands, and Python programming while creating a functional application.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/0k91XRAJhGY)
 
 # Relational Database
 
